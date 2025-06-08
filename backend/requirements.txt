@@ -1,0 +1,5 @@
+fastapi
+kafka-python
+elasticsearch
+neo4j
+pytest

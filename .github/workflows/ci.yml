@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: [backend, frontend]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Node 18
+        if: matrix.service == 'frontend'
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Set up Python 3.11
+        if: matrix.service == 'backend'
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+      - name: Install dependencies
+        run: |
+          cd ${{ matrix.service }}
+          if [ ${{ matrix.service }} = 'frontend' ]; then npm ci; fi
+          if [ ${{ matrix.service }} = 'backend' ]; then pip install -r requirements.txt; fi
+      - name: Run tests
+        run: |
+          cd ${{ matrix.service }}
+          if [ ${{ matrix.service }} = 'frontend' ]; then npm test -- --ci; fi
+          if [ ${{ matrix.service }} = 'backend' ]; then pytest --maxfail=1 --disable-warnings -q; fi
