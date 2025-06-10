@@ -4,3 +4,8 @@ kafka-python
 elasticsearch
 neo4j
 pytest
+pymisp           # MISP API client
+OTXv2            # AlienVault OTX client
+requests         # for HTTP calls
+kafka-python     # Kafka producer
+python-dotenv    # load .env files
