@@ -50,3 +50,15 @@ services:
       - "3000:3000"
     volumes:
       - ../frontend:/app
+
+  etl:
+    build:
+      context: ../backend/etl
+      dockerfile: Dockerfile
+    env_file:
+      - ../backend/etl/.env   # put MISP_URL, MISP_API_KEY, OTX_API_KEY, VT_API_KEY, SIEM_LOG_FILE, KAFKA_BROKER
+    depends_on:
+      - kafka
+    volumes:
+      - ../backend/etl:/app      # for live code updates
+      - /var/log/siem.json:/var/log/siem.json  # sample SIEM file
