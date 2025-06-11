@@ -25,7 +25,7 @@ def fetch_and_publish():
         }, feed="misp")
         send("cti-misp", ioc)
 
-if __name__ == "__main__":
+if __name__=="__main__":
     while True:
         try:
             fetch_and_publish()
